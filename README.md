@@ -37,7 +37,8 @@ valid|LONGINT|``1``:valid
 ## Steps
 
 [Manage API client access](https://admin.google.com/AdminHome?chromeless=1#OGX:ManageOauthClients)
-https://support.google.com/a/answer/162106
+
+[https://support.google.com/](https://support.google.com/a/answer/162106)
 
 [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/googlescopes)
 
