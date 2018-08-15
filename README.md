@@ -72,4 +72,34 @@ https://www.googleapis.com/auth/admin.directory.group,https://www.googleapis.com
 
 <img width="300" src="https://user-images.githubusercontent.com/1725068/44128105-e9cde5b6-a07b-11e8-8ba4-8475072cdfbe.png" />
 
+### Problems
 
+When an address other than the service account itself is specified in ``sub`` (either an admin account or a regular account), the auth server returns an error.
+
+```
+{
+ "error": "unauthorized_client",
+ "error_description": "Client is unauthorized to retrieve access tokens using this method."
+}
+```
+
+Evidentally, passing standard audience to ``aud`` results in error.
+
+BAD: https://www.googleapis.com/oauth2/v4/token
+
+```
+{
+ "error": "invalid_grant",
+ "error_description": "Invalid JWT: Failed audience check. The right audience is https://www.googleapis.com/oauth2/v4/token"
+}
+```
+
+GOOD: https://oauth2.googleapis.com/token
+
+```
+{
+  "access_token": "ya29.c.Elz6Be4keP1I5udHB1-iJb6LiDpfTcpgBl_SNe6U6-LIVwN3pUBkunCDvCbbJjFAb0N90siKJKQB3xprTQZl5F4-h1LQ6FuUlgPc398I4fYB49Osn6hn64NiCgv6rQ",
+  "expires_in": 3600,
+  "token_type": "Bearer"
+}
+```
