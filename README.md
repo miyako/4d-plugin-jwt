@@ -41,6 +41,6 @@ valid|LONGINT|``1``:valid
 * Client Name: ``service@my-project-27018.iam.gserviceaccount.com`` or ``100484781807410278113``
 * Scopes: ``https://www.googleapis.com/auth/admin.directory.user,https://www.googleapis.com/auth/admin.directory.group``
 
-<img width="600" src="https://user-images.githubusercontent.com/1725068/44127804-005eb000-a07a-11e8-9826-4ea44c62fc4f.png" />
+<img width="300" src="https://user-images.githubusercontent.com/1725068/44127804-005eb000-a07a-11e8-9826-4ea44c62fc4f.png" />
 
 https://admin.google.com/AdminHome?chromeless=1#OGX:ManageOauthClients
