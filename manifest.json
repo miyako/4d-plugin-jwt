@@ -1,0 +1,21 @@
+{
+    "name": "JWT",
+    "id": 20000,
+    "commands": [
+                 {
+                 "theme": "JWT",
+                 "syntax": "JWT Timestamp(&T;&T):T",
+                 "threadSafe": true
+                 },
+                 {
+                 "theme": "JWT",
+                 "syntax": "JWT Sign(&T;&T;&T):T",
+                 "threadSafe": true
+                 },
+                 {
+                 "theme": "JWT",
+                 "syntax": "JWT Verify(&T;&T):L",
+                 "threadSafe": true
+                 }
+                 ]
+}
