@@ -44,7 +44,18 @@ valid|LONGINT|``1``:valid
 
 <img width="300" src="https://user-images.githubusercontent.com/1725068/44127804-005eb000-a07a-11e8-9826-4ea44c62fc4f.png" />
 
-* Client: ``service@my-project-27018.iam.gserviceaccount.com`` or ``100484781807410278113``
+* Client: 
+
+```
+service@my-project-27018.iam.gserviceaccount.com
+```
+
+or
+
+```
+100484781807410278113
+```
+
 * Scope: 
 
 ```
