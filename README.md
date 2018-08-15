@@ -44,8 +44,12 @@ valid|LONGINT|``1``:valid
 
 <img width="300" src="https://user-images.githubusercontent.com/1725068/44127804-005eb000-a07a-11e8-9826-4ea44c62fc4f.png" />
 
-* Client Name: ``service@my-project-27018.iam.gserviceaccount.com`` or ``100484781807410278113``
-* Scopes: ``https://www.googleapis.com/auth/admin.directory.user,https://www.googleapis.com/auth/admin.directory.group``
+* Client: ``service@my-project-27018.iam.gserviceaccount.com`` or ``100484781807410278113``
+* Scope: 
+
+```
+https://www.googleapis.com/auth/admin.directory.user,https://www.googleapis.com/auth/admin.directory.group
+```
 
 [Enable G Suite Domain-wide Delegation](https://console.developers.google.com/iam-admin/serviceaccounts/details/100484781807410278113;edit=true?organizationId=772231897481&project=my-project-27018&supportedpurview=project)
 
