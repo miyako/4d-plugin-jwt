@@ -33,3 +33,14 @@ Parameter|Type|Description
 bearer|TEXT|
 privateKey|TEXT|
 valid|LONGINT|``1``:valid
+
+## Steps
+
+### Manage API client access
+
+* Client Name: ``service@my-project-27018.iam.gserviceaccount.com`` or ``100484781807410278113``
+* Scopes: ``https://www.googleapis.com/auth/admin.directory.user,https://www.googleapis.com/auth/admin.directory.group``
+
+![](https://user-images.githubusercontent.com/1725068/44127804-005eb000-a07a-11e8-9826-4ea44c62fc4f.png)
+
+https://admin.google.com/AdminHome?chromeless=1#OGX:ManageOauthClients
