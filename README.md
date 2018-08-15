@@ -103,3 +103,12 @@ GOOD: https://oauth2.googleapis.com/token
   "token_type": "Bearer"
 }
 ```
+
+Including scope in request parameter results in error if ``sub`` is not the service account. No problems if ``sub`` is the service account. 
+
+```
+{
+  "error": "invalid_scope",
+  "error_description": "Invalid downscoping, scopes should not be specified as a request parameter."
+}
+```
