@@ -50,3 +50,9 @@ valid|LONGINT|``1``:valid
 [Enable G Suite Domain-wide Delegation](https://console.developers.google.com/iam-admin/serviceaccounts/details/100484781807410278113;edit=true?organizationId=772231897481&project=my-project-27018&supportedpurview=project)
 
 <img width="300" src="https://user-images.githubusercontent.com/1725068/44128105-e9cde5b6-a07b-11e8-8ba4-8475072cdfbe.png" />
+
+full scope for [Admin Directory API](https://developers.google.com/admin-sdk/directory/) ``directory_v1``
+
+```
+https://www.googleapis.com/auth/admin.directory.group,https://www.googleapis.com/auth/admin.directory.user,https://www.googleapis.com/auth/admin.directory.userschema,https://www.googleapis.com/auth/admin.directory.user.security,https://www.googleapis.com/auth/admin.directory.user.alias,https://www.googleapis.com/auth/admin.directory.orgunit,https://www.googleapis.com/auth/admin.directory.notifications,https://www.googleapis.com/auth/admin.directory.group.member,https://www.googleapis.com/auth/admin.directory.device.mobile.action,https://www.googleapis.com/auth/admin.directory.device.mobile,https://www.googleapis.com/auth/admin.directory.device.chromeos
+```
