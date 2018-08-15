@@ -39,6 +39,8 @@ valid|LONGINT|``1``:valid
 [Manage API client access](https://admin.google.com/AdminHome?chromeless=1#OGX:ManageOauthClients)
 https://support.google.com/a/answer/162106
 
+[OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/googlescopes)
+
 <img width="300" src="https://user-images.githubusercontent.com/1725068/44127804-005eb000-a07a-11e8-9826-4ea44c62fc4f.png" />
 
 * Client Name: ``service@my-project-27018.iam.gserviceaccount.com`` or ``100484781807410278113``
