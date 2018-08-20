@@ -137,12 +137,12 @@ c.f. ACI0098213, ACI0098503
 
 * Create service account 
 
-** Set role as Owner
+ * Set role as Owner
 
-** Furnish a new private key
+ * Furnish a new private key
 
-** Enable G Suite Domain-wide Delegation 
+ * Enable G Suite Domain-wide Delegation 
 
-** Assign product name
+ * Assign product name
 
-** Save
+ * Save
