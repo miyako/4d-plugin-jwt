@@ -120,3 +120,8 @@ HTTP Get can return error 61 connection refused, depending on the LAN confuratio
 c.f. ACI0098213, ACI0098503
 
 <img width="600" alt="2018-08-20 16 10 03" src="https://user-images.githubusercontent.com/1725068/44325569-1e950d80-a494-11e8-82cf-b7f6b5bed32e.png">
+
+### Memo
+
+<img width="400" alt="2018-08-20 16 50 26" src="https://user-images.githubusercontent.com/1725068/44327310-39b64c00-a499-11e8-937e-66e382889983.png">
+
