@@ -125,3 +125,24 @@ c.f. ACI0098213, ACI0098503
 
 <img width="400" alt="2018-08-20 16 50 26" src="https://user-images.githubusercontent.com/1725068/44327310-39b64c00-a499-11e8-937e-66e382889983.png">
 
+* Login to Google with G Suite admin account.
+
+* Goto [Google Cloud Platform](https://console.cloud.google.com/) console
+
+* Create New Project
+
+* Go to Project Settings
+
+* Go to Service Accounts
+
+* Create service account 
+
+** Set role as Owner
+
+** Furnish a new private key
+
+** Enable G Suite Domain-wide Delegation 
+
+** Assign product name
+
+** Save
