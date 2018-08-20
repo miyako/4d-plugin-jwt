@@ -146,3 +146,23 @@ c.f. ACI0098213, ACI0098503
  * Assign product name
 
  * Save
+
+ * Goto APIs and services
+
+* Select Enable APIs and services
+
+* Find Admin SDK
+
+* Enable Admin SDK
+
+* Go to [Google Admin](https://admin.google.com/)
+
+* Select Security
+
+* Select Advanced settings
+
+* Select Manage API client access
+
+* Register scopes
+
+```https://apps-apis.google.com/a/feeds/domain/,https://www.googleapis.com/auth/admin.directory.user``
