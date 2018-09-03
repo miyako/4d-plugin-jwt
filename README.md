@@ -1,6 +1,8 @@
 # 4d-plugin-jwt
 Sign and Verify JSON Web Token
 
+based on [josepp](https://github.com/troian/josepp) and [jsoncpp](https://github.com/open-source-parsers/jsoncpp)
+
 ### Platform
 
 | carbon | cocoa | win32 | win64 |
