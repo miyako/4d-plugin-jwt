@@ -15,6 +15,10 @@ based on [josepp](https://github.com/troian/josepp) and [jsoncpp](https://github
 
 ![preemption xx](https://user-images.githubusercontent.com/1725068/41327179-4e839948-6efd-11e8-982b-a670d511e04f.png)
 
+### Releases 
+
+[1.1](https://github.com/miyako/4d-plugin-jwt/releases/tag/1.1)
+
 ## Syntax
 
 ```
