@@ -146,7 +146,6 @@
 		089C166AFE841209C02AAC07 /* JWT */ = {
 			isa = PBXGroup;
 			children = (
-				D11BF5EB21230E5F00268358 /* a */,
 				D108BD7A1A03D1E6001F1B90 /* Manifest */,
 				08FB77ADFE841716C02AAC07 /* Source */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -216,14 +215,6 @@
 				D14D10DD1A03A8A5008B3411 /* constants.xlf */,
 			);
 			name = Manifest;
-			sourceTree = "<group>";
-		};
-		D11BF5EB21230E5F00268358 /* a */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = a;
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		D11BF5EC2123100300268358 /* Frameworks */ = {
