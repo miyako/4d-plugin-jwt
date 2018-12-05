@@ -9,6 +9,13 @@
  # --------------------------------------------------------------------------------*/
 
 #include "openssl/crypto.h"
+#include "openssl/hmac.h"
+#include "openssl/evp.h"
+#include "openssl/ssl.h"
+#include "openssl/bio.h"
+#include "openssl/buffer.h"
+#include "openssl/pkcs12.h"
+#include "openssl/err.h"
 
 #include "json/json.h"
 

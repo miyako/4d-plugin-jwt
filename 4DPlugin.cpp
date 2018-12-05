@@ -312,20 +312,20 @@ void JWT_Sign(sLONG_PTR *pResult, PackagePtr pParams)
         }
     }
 
-    string header_b64, payload_b64;
-    string token;
+//    string header_b64, payload_b64;
+//    string token;
     string bearer;
-    string sign;
+//    string sign;
     
     try
     {
-        hdr hdr(header_json);
-        header_b64 = hdr.b64();
+//        hdr hdr(header_json);
+//        header_b64 = hdr.b64();
         
         claims claims(payload_json);
-        payload_b64 = claims.b64();
+//        payload_b64 = claims.b64();
         
-        token = header_b64 + "." + payload_b64;
+//        token = header_b64 + "." + payload_b64;
         
         BIO *bio = BIO_new_mem_buf((const void *)private_key.c_str(), private_key.length());
         
@@ -339,27 +339,44 @@ void JWT_Sign(sLONG_PTR *pResult, PackagePtr pParams)
                 {
                     EC_KEY *key = NULL;
                     key = PEM_read_bio_ECPrivateKey(bio, NULL, NULL, NULL);
+
                     if(key)
                     {
                         sp_ecdsa_key sp_key = sp_ecdsa_key(EC_KEY_dup(key), ::EC_KEY_free);
-                        sp_ecdsa_key pubkey = sp_ecdsa_key(EC_KEY_dup(sp_key.get()), ::EC_KEY_free);
+                        sp_ecdsa sp_crp = make_shared<ecdsa>(alg, sp_key);
+ /*
+  string header_b64, payload_b64;
+  string token;
+  string sign;
+  
+  hdr hdr(header_json);
+  header_b64 = hdr.b64();
+  payload_b64 = claims.b64();
+  token = header_b64 + "." + payload_b64;
+  
+  sign = sp_crp->sign(token);
+  bool test = sp_crp->verify(token, sign);
+  */
+
+//                        ECDSA_SIG *signature = ECDSA_do_sign((const unsigned char *)token.c_str(), token.length(), key);
                         
-                        sp_crypto sp_crp = make_shared<ecdsa>(alg, sp_key);
-                        sp_crypto sp_crp_pub = make_shared<ecdsa>(alg, pubkey);
                         
-                        /* sign_claims removes all properties except alg and typ */
-                        string sign = jws::sign(token, sp_crp);
-                        bearer = token + "." + sign;
+                        bearer = jws::sign_claims(claims, sp_crp);
                     }
-                    BIO_free(bio);
+
                 }
                     break;
-                    /*
+                    
                 case alg::HS256:
                 case alg::HS384:
                 case alg::HS512:
+                {
+                    sp_hmac sp_crp = std::make_shared<jose::hmac>(alg, private_key);
+
+                    bearer = jws::sign_claims(claims, sp_crp);
+                }
                     break;
-                    */
+
                 default:
                 {
                     RSA *key = NULL;
@@ -367,20 +384,15 @@ void JWT_Sign(sLONG_PTR *pResult, PackagePtr pParams)
                     if(key)
                     {
                         sp_rsa_key sp_key = sp_rsa_key(RSAPrivateKey_dup(key), ::RSA_free);
-                        sp_rsa_key pubkey = sp_rsa_key(RSAPublicKey_dup(sp_key.get()), ::RSA_free);
-                        
-                        sp_crypto sp_crp = make_shared<rsa>(alg, sp_key);
-                        sp_crypto sp_crp_pub = make_shared<rsa>(alg, pubkey);
-                        
-                        /* sign_claims removes all properties except alg and typ */
-                        string sign = jws::sign(token, sp_crp);
-                        bearer = token + "." + sign;
+                        sp_rsa sp_crp = make_shared<rsa>(alg, sp_key);
+
+                        bearer = jws::sign_claims(claims, sp_crp);
                     }
-                    BIO_free(bio);
+                    
                 }
                     break;
             }
-
+            BIO_free(bio);
         }
         
     }catch(...)
@@ -524,47 +536,71 @@ void JWT_Verify(sLONG_PTR *pResult, PackagePtr pParams)
                 case alg::ES512:
                 {
                     EC_KEY *key = NULL;
-                    key = PEM_read_bio_ECPrivateKey(bio, NULL, NULL, NULL);
+                    key = PEM_read_bio_EC_PUBKEY(bio, NULL, NULL, NULL);
                     if(key)
                     {
                         sp_ecdsa_key sp_key = sp_ecdsa_key(EC_KEY_dup(key), ::EC_KEY_free);
-                        sp_ecdsa_key pubkey = sp_ecdsa_key(EC_KEY_dup(sp_key.get()), ::EC_KEY_free);
-                        
-                        sp_crypto sp_crp = make_shared<ecdsa>(alg, sp_key);
-                        sp_crypto sp_crp_pub = make_shared<ecdsa>(alg, pubkey);
+                        sp_ecdsa sp_crp = make_shared<ecdsa>(alg, sp_key);
                         
                         sp_jws jws = jws::parse(bearer);
-                        returnValue.setIntValue(jws->verify(sp_crp_pub));
+                        returnValue.setIntValue(jws->verify(sp_crp));
+                    }else
+                    {
+                        BIO_reset(bio);
+                        key = PEM_read_bio_ECPrivateKey(bio, NULL, NULL, NULL);
+                        if(key)
+                        {
+                            sp_ecdsa_key sp_key = sp_ecdsa_key(EC_KEY_dup(key), ::EC_KEY_free);
+                            sp_ecdsa sp_crp = make_shared<ecdsa>(alg, sp_key);
+                            
+                            sp_jws jws = jws::parse(bearer);
+                            returnValue.setIntValue(jws->verify(sp_crp));
+                        }
+
                     }
-                    BIO_free(bio);
+
                 }
                     break;
-                    /*
-                     case alg::HS256:
-                     case alg::HS384:
-                     case alg::HS512:
-                     break;
-                     */
+                case alg::HS256:
+                case alg::HS384:
+                case alg::HS512:
+                {
+                    sp_hmac sp_crp = std::make_shared<jose::hmac>(alg, private_key);
+                    
+                    sp_jws jws = jws::parse(bearer);
+                    returnValue.setIntValue(jws->verify(sp_crp));
+                }
+                    break;
                 default:
                 {
                     RSA *key = NULL;
-                    key = PEM_read_bio_RSAPrivateKey(bio, NULL, NULL, NULL);
+                    key = PEM_read_bio_RSA_PUBKEY(bio, NULL, NULL, NULL);
                     if(key)
                     {
-                        sp_rsa_key sp_key = sp_rsa_key(RSAPrivateKey_dup(key), ::RSA_free);
-                        sp_rsa_key pubkey = sp_rsa_key(RSAPublicKey_dup(sp_key.get()), ::RSA_free);
-                        
-                        sp_crypto sp_crp = make_shared<rsa>(alg, sp_key);
-                        sp_crypto sp_crp_pub = make_shared<rsa>(alg, pubkey);
+                        sp_rsa_key sp_key = sp_rsa_key(RSAPublicKey_dup(key), ::RSA_free);
+                        sp_rsa sp_crp = make_shared<rsa>(alg, sp_key);
                         
                         sp_jws jws = jws::parse(bearer);
-                        returnValue.setIntValue(jws->verify(sp_crp_pub));
+                        returnValue.setIntValue(jws->verify(sp_crp));
+                    }else
+                    {
+                        BIO_reset(bio);
+                        key = PEM_read_bio_RSAPrivateKey(bio, NULL, NULL, NULL);
+                        if(key)
+                        {
+                            sp_rsa_key sp_key = sp_rsa_key(RSAPrivateKey_dup(key), ::RSA_free);
+                            sp_rsa sp_crp = make_shared<rsa>(alg, sp_key);
+                            
+                            sp_jws jws = jws::parse(bearer);
+                            returnValue.setIntValue(jws->verify(sp_crp));
+                        }
+                        
                     }
-                    BIO_free(bio);
+                    
                 }
                     break;
             }
-
+            BIO_free(bio);
         }
     }catch(...)
     {
