@@ -51,3 +51,83 @@ Parameter|Type|Description
 bearer|TEXT|
 privateKey|TEXT|
 valid|LONGINT|``1``:valid
+
+## Examples
+
+* EC
+
+```
+$private_key:=Document to text(Get 4D folder(Current resources folder)+"ecsdata"+Folder separator+"private.pem";"utf-8";Document unchanged)
+$public_key:=Document to text(Get 4D folder(Current resources folder)+"ecsdata"+Folder separator+"public.pem";"utf-8";Document unchanged)
+
+C_OBJECT($header)
+
+$header:=New object(\
+JWT Header typ;"JWT";\
+JWT Header alg;JWT Digest ES256)
+
+C_OBJECT($claim)
+$claim:=New object(\
+JWT Claim sub;"1234567890";\
+"name";"John Doe";\
+"admin";True;\
+JWT Claim iat;1516239022)
+
+$assertion:=JWT Sign (JSON Stringify($header);JSON Stringify($claim);$private_key)
+SET TEXT TO PASTEBOARD($assertion)
+
+ASSERT(1=JWT Verify ($assertion;$public_key))  //normally verify with public key
+
+ASSERT(1=JWT Verify ($assertion;$private_key))  //this is fallback
+```
+
+* RSA
+
+```
+$private_key:=Document to text(Get 4D folder(Current resources folder)+"rsa"+Folder separator+"private.pem";"utf-8";Document unchanged)
+$public_key:=Document to text(Get 4D folder(Current resources folder)+"rsa"+Folder separator+"public.pem";"utf-8";Document unchanged)
+
+C_OBJECT($header)
+
+$header:=New object(\
+JWT Header typ;"JWT";\
+JWT Header alg;JWT Digest RS256)
+
+C_OBJECT($claim)
+$claim:=New object(\
+JWT Claim sub;"1234567890";\
+"name";"John Doe";\
+"admin";True;\
+JWT Claim iat;1516239022)
+
+$assertion:=JWT Sign (JSON Stringify($header);JSON Stringify($claim);$private_key)
+SET TEXT TO PASTEBOARD($assertion)
+
+ASSERT(1=JWT Verify ($assertion;$public_key))  //normally verify with public key
+
+ASSERT(1=JWT Verify ($assertion;$private_key))  //this is fallback
+```
+
+* HMAC
+
+```
+$private_key:="secret"
+
+C_OBJECT($header)
+
+$header:=New object(\
+JWT Header typ;"JWT";\
+JWT Header alg;JWT Digest HS256)
+
+C_OBJECT($claim)
+$claim:=New object(\
+JWT Claim sub;"1234567890";\
+"name";"John Doe";\
+"admin";True;\
+JWT Claim iat;1516239022)
+
+$assertion:=JWT Sign (JSON Stringify($header);JSON Stringify($claim);$private_key)
+SET TEXT TO PASTEBOARD($assertion)
+
+ASSERT(1=JWT Verify ($assertion;$private_key))
+```
