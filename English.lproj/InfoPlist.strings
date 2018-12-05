@@ -1,5 +1,5 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "JWT";
-CFBundleShortVersionString = "1.2";
-CFBundleGetInfoString = "JWT version 1.2, Copyright 2018 miyako.";
+CFBundleShortVersionString = "1.3";
+CFBundleGetInfoString = "JWT version 1.3, Copyright 2018 miyako.";

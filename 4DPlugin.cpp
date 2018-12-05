@@ -312,20 +312,11 @@ void JWT_Sign(sLONG_PTR *pResult, PackagePtr pParams)
         }
     }
 
-//    string header_b64, payload_b64;
-//    string token;
     string bearer;
-//    string sign;
-    
+
     try
     {
-//        hdr hdr(header_json);
-//        header_b64 = hdr.b64();
-        
         claims claims(payload_json);
-//        payload_b64 = claims.b64();
-        
-//        token = header_b64 + "." + payload_b64;
         
         BIO *bio = BIO_new_mem_buf((const void *)private_key.c_str(), private_key.length());
         
@@ -342,28 +333,70 @@ void JWT_Sign(sLONG_PTR *pResult, PackagePtr pParams)
 
                     if(key)
                     {
-                        sp_ecdsa_key sp_key = sp_ecdsa_key(EC_KEY_dup(key), ::EC_KEY_free);
-                        sp_ecdsa sp_crp = make_shared<ecdsa>(alg, sp_key);
- /*
-  string header_b64, payload_b64;
-  string token;
-  string sign;
-  
-  hdr hdr(header_json);
-  header_b64 = hdr.b64();
-  payload_b64 = claims.b64();
-  token = header_b64 + "." + payload_b64;
-  
-  sign = sp_crp->sign(token);
-  bool test = sp_crp->verify(token, sign);
-  */
-
-//                        ECDSA_SIG *signature = ECDSA_do_sign((const unsigned char *)token.c_str(), token.length(), key);
-                        
-                        
-                        bearer = jws::sign_claims(claims, sp_crp);
+                        if(EC_KEY_check_key(key) != 0)
+                        {
+                            std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)> ctx(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+                            
+                            const EVP_MD *(*md)();
+                            switch(alg)
+                            {
+                                case alg::ES384:
+                                    md = EVP_sha384;
+                                    break;
+                                case alg::ES512:
+                                    md = EVP_sha512;
+                                    break;
+                                case alg::ES256:
+                                default:
+                                    md = EVP_sha256;
+                                    break;
+                            }
+                            
+                            if(EVP_DigestInit(ctx.get(), md()) != 0)
+                            {
+                                 string data;
+                                 string sign;
+                                 hdr hdr(header_json);
+                                 data = hdr.b64() + "." + claims.b64();
+                                
+                                if(EVP_DigestUpdate(ctx.get(), data.data(), data.size()) != 0)
+                                {
+                                    unsigned int len = 0;
+                                    std::string hash;
+                                    hash.resize(EVP_MD_CTX_size(ctx.get()));
+                                    if(EVP_DigestFinal(ctx.get(), (unsigned char*)hash.data(), &len) != 0)
+                                    {
+                                        hash.resize(len);
+                                        std::unique_ptr<ECDSA_SIG, decltype(&ECDSA_SIG_free)>
+                                        sig(ECDSA_do_sign((const unsigned char *)hash.data(), hash.size(), key), ECDSA_SIG_free);
+                                        
+                                        const BIGNUM *r;
+                                        const BIGNUM *s;
+                                        ECDSA_SIG_get0(sig.get(), &r, &s);
+                                        
+                                        vector<unsigned char > buf(BN_num_bytes(r) + BN_num_bytes(s));
+                                        memset(&buf[0], 0, buf.size());
+                                        
+                                        BN_bn2bin(r, &buf[0]);
+                                        BN_bn2bin(s, &buf[BN_num_bytes(r)]);
+                                        
+                                        sign  = b64::encode_uri((const uint8_t *)&buf[0], buf.size());
+                                        
+                                        bearer = data + "." + sign;
+                                        
+                                        /* old code: josepp seems to return the sig (not r + s) */
+                                        
+                                        /*
+                                         sp_ecdsa_key sp_key = sp_ecdsa_key(EC_KEY_dup(key), ::EC_KEY_free);
+                                         sp_ecdsa sp_crp = make_shared<ecdsa>(alg, sp_key);
+                                         
+                                         bearer = jws::sign_claims(claims, sp_crp);
+                                         */
+                                    }
+                                }
+                            }
+                        }
                     }
-
                 }
                     break;
                     
@@ -539,22 +572,31 @@ void JWT_Verify(sLONG_PTR *pResult, PackagePtr pParams)
                     key = PEM_read_bio_EC_PUBKEY(bio, NULL, NULL, NULL);
                     if(key)
                     {
-                        sp_ecdsa_key sp_key = sp_ecdsa_key(EC_KEY_dup(key), ::EC_KEY_free);
-                        sp_ecdsa sp_crp = make_shared<ecdsa>(alg, sp_key);
+                        /* old code: josepp seems to verify the sig (not r + s) */
                         
-                        sp_jws jws = jws::parse(bearer);
-                        returnValue.setIntValue(jws->verify(sp_crp));
+                        /*
+                         sp_ecdsa_key sp_key = sp_ecdsa_key(EC_KEY_dup(key), ::EC_KEY_free);
+                         sp_ecdsa sp_crp = make_shared<ecdsa>(alg, sp_key);
+                         
+                         sp_jws jws = jws::parse(bearer);
+                         returnValue.setIntValue(jws->verify(sp_crp));
+                         */
+ 
                     }else
                     {
                         BIO_reset(bio);
                         key = PEM_read_bio_ECPrivateKey(bio, NULL, NULL, NULL);
                         if(key)
                         {
-                            sp_ecdsa_key sp_key = sp_ecdsa_key(EC_KEY_dup(key), ::EC_KEY_free);
-                            sp_ecdsa sp_crp = make_shared<ecdsa>(alg, sp_key);
+                            /* old code: josepp seems to verify the sig (not r + s) */
                             
-                            sp_jws jws = jws::parse(bearer);
-                            returnValue.setIntValue(jws->verify(sp_crp));
+                            /*
+                             sp_ecdsa_key sp_key = sp_ecdsa_key(EC_KEY_dup(key), ::EC_KEY_free);
+                             sp_ecdsa sp_crp = make_shared<ecdsa>(alg, sp_key);
+                             
+                             sp_jws jws = jws::parse(bearer);
+                             returnValue.setIntValue(jws->verify(sp_crp));
+                             */
                         }
 
                     }
