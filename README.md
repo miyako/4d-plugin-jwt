@@ -17,7 +17,7 @@ based on [josepp](https://github.com/troian/josepp) and [jsoncpp](https://github
 
 ### Releases 
 
-[1.1](https://github.com/miyako/4d-plugin-jwt/releases/tag/1.1)
+[1.2](https://github.com/miyako/4d-plugin-jwt/releases/tag/1.2)
 
 ## Syntax
 
