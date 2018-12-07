@@ -52,7 +52,9 @@ extern "C" {
 #  endif
 # endif
 
-# include <sys/types.h>
+# if !defined(NO_SYS_TYPES_H)
+#  include <sys/types.h>
+# endif
 
 # define SEED_BLOCK_SIZE 16
 # define SEED_KEY_LENGTH 16
