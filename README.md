@@ -43,8 +43,8 @@ bearer:=JWT Sign (header;claim;privateKey)
 
 Parameter|Type|Description
 ------------|------------|----
-header|OJBECT|
-claim|OJBECT|
+header|TEXT|
+claim|TEXT|
 privateKey|TEXT|
 bearer|TEXT|
 
