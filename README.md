@@ -16,7 +16,9 @@ Sign and Verify JSON Web Token based on [josepp](https://github.com/troian/josep
 • Test database (folder `test`)
 
 ## Installation Instructions
-Add the `JWT.bundle`to your database's `Plugins` folder.
+1. Extract either the **JWT.DMG** or the **JWT.zip** archives
+2. Add the **JWT.bundle** to your database's **Plugins** folder.
+
 ## Syntax
 
 ```
