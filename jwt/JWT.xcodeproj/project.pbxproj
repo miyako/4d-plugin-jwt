@@ -33,7 +33,7 @@
 		D134D4AB1A030B7A008D14EF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = ..;
+			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
 				D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */,
@@ -60,15 +60,11 @@
 		D15E39CF260708E60091EA15 /* libjwtpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjwtpp.a; path = a/libjwtpp.a; sourceTree = "<group>"; };
 		D15E39D3260709030091EA15 /* libjsoncpp_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjsoncpp_static.a; path = a/libjsoncpp_static.a; sourceTree = "<group>"; };
 		D15E39D726070AEC0091EA15 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		D15E39E126070BF60091EA15 /* libjsoncpp.1.9.4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjsoncpp.1.9.4.a; path = a/libjsoncpp.1.9.4.a; sourceTree = "<group>"; };
-		D15E39E726070C6C0091EA15 /* libjsoncpp_object.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjsoncpp_object.a; path = a/libjsoncpp_object.a; sourceTree = "<group>"; };
 		D17F3E0F24469CCF0052A861 /* C_LONGINT.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_LONGINT.cpp; path = "4D Plugin API/Classes/C_LONGINT.cpp"; sourceTree = "<group>"; };
 		D17F3E1024469CCF0052A861 /* C_TYPES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_TYPES.h; path = "4D Plugin API/Classes/C_TYPES.h"; sourceTree = "<group>"; };
 		D17F3E1124469CCF0052A861 /* C_LONGINT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_LONGINT.h; path = "4D Plugin API/Classes/C_LONGINT.h"; sourceTree = "<group>"; };
 		D17F3E1224469CCF0052A861 /* C_TEXT.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_TEXT.cpp; path = "4D Plugin API/Classes/C_TEXT.cpp"; sourceTree = "<group>"; };
 		D17F3E1324469CCF0052A861 /* C_TEXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_TEXT.h; path = "4D Plugin API/Classes/C_TEXT.h"; sourceTree = "<group>"; };
-		D17F3E1924469E140052A861 /* libjosepp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjosepp.a; path = a/libjosepp.a; sourceTree = "<group>"; };
-		D17F3E1A24469E140052A861 /* libjsoncpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjsoncpp.a; path = a/libjsoncpp.a; sourceTree = "<group>"; };
 		D17F3E1B24469E140052A861 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = a/libcrypto.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,14 +162,10 @@
 		D16FBB3C22A4C07E008F0416 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D15E39E726070C6C0091EA15 /* libjsoncpp_object.a */,
-				D15E39E126070BF60091EA15 /* libjsoncpp.1.9.4.a */,
 				D15E39D726070AEC0091EA15 /* libz.tbd */,
 				D15E39D3260709030091EA15 /* libjsoncpp_static.a */,
 				D15E39CF260708E60091EA15 /* libjwtpp.a */,
 				D17F3E1B24469E140052A861 /* libcrypto.a */,
-				D17F3E1924469E140052A861 /* libjosepp.a */,
-				D17F3E1A24469E140052A861 /* libjsoncpp.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -354,7 +346,7 @@
 					"$(PROJECT_DIR)/a",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -405,7 +397,7 @@
 					"$(PROJECT_DIR)/a",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -454,7 +446,7 @@
 					"$(PROJECT_DIR)/a",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
