@@ -8,7 +8,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TONPSeKCsbHMQkkmCXowI28AG7c=
+			wi36ztTSr25Tj1Vj4ra2cUbUBgc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -22,10 +22,6 @@
 	<dict>
 		<key>QuickLook/Thumbnail.png</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			hC+U8EqvyIRM1lLakHLfvl4V9Tc=
-			</data>
 			<key>hash2</key>
 			<data>
 			nGfrvibB5KlzvZgF4Bra+l0HpRloxismgTLePnOwCdk=
@@ -33,136 +29,25 @@
 		</dict>
 		<key>Resources/English.lproj/InfoPlist.strings</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			TONPSeKCsbHMQkkmCXowI28AG7c=
-			</data>
 			<key>hash2</key>
 			<data>
-			GvEyvcp/V7Snxdd5yag+O0+6IM7S2Qclo+Ra8+6IThE=
+			wlq/i54+5UhG+fhOlTWTZgNHtIS26XvG1ifr39Os81s=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>Resources/constants.xlf</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			+Zqm/HQ3fj7eCJXyKqWsIuCxvp4=
-			</data>
 			<key>hash2</key>
 			<data>
 			vXx+cli/WwkYCl52r+A9Ar7IUKlyaJuySBPeZyLBiAM=
 			</data>
 		</dict>
-		<key>Windows/JWT.4DX</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Kcda5fhRKZr6CSTzarcZ9guG/zo=
-			</data>
-			<key>hash2</key>
-			<data>
-			0mPbd297/PGaTumRabhk7E1it2Hdj7m5waVbybCeirQ=
-			</data>
-		</dict>
-		<key>Windows/JWT.exp</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			JwDv8ymPqA5MSH9RcHvgi7IyLUU=
-			</data>
-			<key>hash2</key>
-			<data>
-			Cn1IOkU1iFgg8hHMQHMizAJoBResN/Q8NRj8QZ1c7Rs=
-			</data>
-		</dict>
-		<key>Windows/JWT.iobj</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			6by9kqgMKfBAm2Bmqa+L17vNXME=
-			</data>
-			<key>hash2</key>
-			<data>
-			PoZPkrNpdrTWsraAtTrIAL9MxodC38TQivaAls6f8Q8=
-			</data>
-		</dict>
-		<key>Windows/JWT.ipdb</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			QEyN5yUijr8lFnMBC+MT/ocri40=
-			</data>
-			<key>hash2</key>
-			<data>
-			COQKFZBjBWIv4vjZJVfQMYmwdSsPWk4VwcZmQCUWt7I=
-			</data>
-		</dict>
-		<key>Windows/JWT.lib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			LUD8E12UiLrTp3D9InjAOZI0mw0=
-			</data>
-			<key>hash2</key>
-			<data>
-			mJ0MUvAT7hv0Ec/33FiDd1xMwvv5zPxC6A9jRiGrqNw=
-			</data>
-		</dict>
 		<key>Windows64/JWT.4DX</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			xTZYNxG80bEOHro4CP8pkB83oNY=
-			</data>
 			<key>hash2</key>
 			<data>
 			GsslMWPD0y435ZmY+HUyARi4mdmGLSodm8MYfxPyGSc=
-			</data>
-		</dict>
-		<key>Windows64/JWT.exp</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			WFQIRSiOj01TixX7T2SvcG4Hnz0=
-			</data>
-			<key>hash2</key>
-			<data>
-			NsZ/F5n6PlTTwrKNHrzhGSrdRwIpzyDnGdSKPXi8nPg=
-			</data>
-		</dict>
-		<key>Windows64/JWT.iobj</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			OQFK069w6AdCkk/Xd0RlkohhQ44=
-			</data>
-			<key>hash2</key>
-			<data>
-			CvfQ21jiChC0Mw+4X15jP6Cl83heB+s2UtI2XLv4Iz8=
-			</data>
-		</dict>
-		<key>Windows64/JWT.ipdb</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			t/Dcrm5PRk8HHBw6OP7bCVaJIt4=
-			</data>
-			<key>hash2</key>
-			<data>
-			KOQaulQNvOC8PzIEXRUdt6v0BLHwpLId475FeXMoNMQ=
-			</data>
-		</dict>
-		<key>Windows64/JWT.lib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			8tftyqjriWYzrKrVVgdIHKsFG7E=
-			</data>
-			<key>hash2</key>
-			<data>
-			rcr4vcNCn3trK91z3AULQqEvqNazNUnoWeTGPzopbS4=
 			</data>
 		</dict>
 		<key>manifest.json</key>

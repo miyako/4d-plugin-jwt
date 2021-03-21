@@ -27,6 +27,8 @@
 
 #include "json/json.h"
 
+#include <jwtpp/jwtpp.hh>
+
 #include "josepp/b64.hpp"
 #include "josepp/claims.hpp"
 #include "josepp/crypto.hpp"

@@ -150,7 +150,7 @@ void JWT_Timestamp(PA_PluginParameters params) {
         time_1 = (long long int)((ul.QuadPart - SECS_BETWEEN_1601_AND_1970_EPOCHS) / 10000);
 #else
         struct timeb timer_msec;
-        long long int timestamp_msec;
+//        long long int timestamp_msec;
         if (!ftime(&timer_msec))
         {
             time_1 = ((long long int) timer_msec.time) * 1000ll + (long long int) timer_msec.millitm;
@@ -187,7 +187,7 @@ void JWT_Sign(PA_PluginParameters params) {
     
     using namespace Json;
     using namespace std;
-    using namespace jose;
+    using namespace jwtpp;
     
     string header_json;
     convertToString(Param1, header_json);
@@ -242,7 +242,7 @@ void JWT_Sign(PA_PluginParameters params) {
                           &errors);
     delete reader;
     
-    alg alg = alg::NONE;
+    alg_t alg = alg_t::NONE;
     
     if(parse)
     {
@@ -258,52 +258,52 @@ void JWT_Sign(PA_PluginParameters params) {
                     string value = it->asString();
                     if(value == "HS256")
                     {
-                        alg = alg::HS256;
+                        alg = alg_t::HS256;
                         break;
                     }
                     if(value == "HS384")
                     {
-                        alg = alg::HS384;
+                        alg = alg_t::HS384;
                         break;
                     }
                     if(value == "HS512")
                     {
-                        alg = alg::HS512;
+                        alg = alg_t::HS512;
                         break;
                     }
                     if(value == "RS256")
                     {
-                        alg = alg::RS256;
+                        alg = alg_t::RS256;
                         break;
                     }
                     if(value == "RS384")
                     {
-                        alg = alg::RS384;
+                        alg = alg_t::RS384;
                         break;
                     }
                     if(value == "RS512")
                     {
-                        alg = alg::RS512;
+                        alg = alg_t::RS512;
                         break;
                     }
                     if(value == "ES256")
                     {
-                        alg = alg::ES256;
+                        alg = alg_t::ES256;
                         break;
                     }
                     if(value == "ES384")
                     {
-                        alg = alg::ES384;
+                        alg = alg_t::ES384;
                         break;
                     }
                     if(value == "ES512")
                     {
-                        alg = alg::ES512;
+                        alg = alg_t::ES512;
                         break;
                     }
                     if(value == "UNKNOWN")
                     {
-                        alg = alg::UNKNOWN;
+                        alg = alg_t::UNKNOWN;
                         break;
                     }
                 }
@@ -319,7 +319,7 @@ void JWT_Sign(PA_PluginParameters params) {
     
     try
     {
-        claims claims(payload_json);
+        jwtpp::claims claims(payload_json);
         
         BIO *bio = BIO_new_mem_buf((const void *)private_key.c_str(), (int)private_key.length());
         
@@ -327,9 +327,9 @@ void JWT_Sign(PA_PluginParameters params) {
         {
             switch(alg)
             {
-                case alg::ES256:
-                case alg::ES384:
-                case alg::ES512:
+                case alg_t::ES256:
+                case alg_t::ES384:
+                case alg_t::ES512:
                 {
                     EC_KEY *key = NULL;
                     key = PEM_read_bio_ECPrivateKey(bio, NULL, NULL, NULL);
@@ -343,13 +343,13 @@ void JWT_Sign(PA_PluginParameters params) {
                             const EVP_MD *(*md)();
                             switch(alg)
                             {
-                                case alg::ES384:
+                                case alg_t::ES384:
                                     md = EVP_sha384;
                                     break;
-                                case alg::ES512:
+                                case alg_t::ES512:
                                     md = EVP_sha512;
                                     break;
-                                case alg::ES256:
+                                case alg_t::ES256:
                                 default:
                                     md = EVP_sha256;
                                     break;
@@ -400,9 +400,9 @@ void JWT_Sign(PA_PluginParameters params) {
                 }
                     break;
                     
-                case alg::HS256:
-                case alg::HS384:
-                case alg::HS512:
+                case alg_t::HS256:
+                case alg_t::HS384:
+                case alg_t::HS512:
                 {
                     std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)> ctx(EVP_MD_CTX_new(), EVP_MD_CTX_free);
                     
@@ -411,15 +411,15 @@ void JWT_Sign(PA_PluginParameters params) {
                     
                     switch(alg)
                     {
-                        case alg::HS384:
+                        case alg_t::HS384:
                             md = EVP_sha384;
                             hashlen = 48;
                             break;
-                        case alg::HS512:
+                        case alg_t::HS512:
                             md = EVP_sha512;
                             hashlen = 64;
                             break;
-                        case alg::HS256:
+                        case alg_t::HS256:
                         default:
                             md = EVP_sha256;
                             hashlen = 32;
@@ -460,13 +460,13 @@ void JWT_Sign(PA_PluginParameters params) {
                         const EVP_MD *(*md)();
                         switch(alg)
                         {
-                            case alg::RS384:
+                            case alg_t::RS384:
                                 md = EVP_sha384;
                                 break;
-                            case alg::RS512:
+                            case alg_t::RS512:
                                 md = EVP_sha512;
                                 break;
-                            case alg::RS256:
+                            case alg_t::RS256:
                             default:
                                 md = EVP_sha256;
                                 break;
@@ -553,9 +553,9 @@ void JWT_Verify(PA_PluginParameters params) {
     
     using namespace Json;
     using namespace std;
-    using namespace jose;
+    using namespace jwtpp;
     
-    alg alg = alg::NONE;
+    alg_t alg = alg_t::NONE;
     
     string bearer, payload, data, sign;
     
@@ -629,52 +629,52 @@ void JWT_Verify(PA_PluginParameters params) {
                         string value = it->asString();
                         if(value == "HS256")
                         {
-                            alg = alg::HS256;
+                            alg = alg_t::HS256;
                             break;
                         }
                         if(value == "HS384")
                         {
-                            alg = alg::HS384;
+                            alg = alg_t::HS384;
                             break;
                         }
                         if(value == "HS512")
                         {
-                            alg = alg::HS512;
+                            alg = alg_t::HS512;
                             break;
                         }
                         if(value == "RS256")
                         {
-                            alg = alg::RS256;
+                            alg = alg_t::RS256;
                             break;
                         }
                         if(value == "RS384")
                         {
-                            alg = alg::RS384;
+                            alg = alg_t::RS384;
                             break;
                         }
                         if(value == "RS512")
                         {
-                            alg = alg::RS512;
+                            alg = alg_t::RS512;
                             break;
                         }
                         if(value == "ES256")
                         {
-                            alg = alg::ES256;
+                            alg = alg_t::ES256;
                             break;
                         }
                         if(value == "ES384")
                         {
-                            alg = alg::ES384;
+                            alg = alg_t::ES384;
                             break;
                         }
                         if(value == "ES512")
                         {
-                            alg = alg::ES512;
+                            alg = alg_t::ES512;
                             break;
                         }
                         if(value == "UNKNOWN")
                         {
-                            alg = alg::UNKNOWN;
+                            alg = alg_t::UNKNOWN;
                             break;
                         }
                     }
@@ -694,9 +694,9 @@ void JWT_Verify(PA_PluginParameters params) {
         {
             switch(alg)
             {
-                case alg::ES256:
-                case alg::ES384:
-                case alg::ES512:
+                case alg_t::ES256:
+                case alg_t::ES384:
+                case alg_t::ES512:
                 {
                     EC_KEY *key = NULL;
                     key = PEM_read_bio_EC_PUBKEY(bio, NULL, NULL, NULL);
@@ -705,13 +705,13 @@ void JWT_Verify(PA_PluginParameters params) {
                         const EVP_MD *(*md)();
                         switch(alg)
                         {
-                            case alg::ES384:
+                            case alg_t::ES384:
                                 md = EVP_sha384;
                                 break;
-                            case alg::ES512:
+                            case alg_t::ES512:
                                 md = EVP_sha512;
                                 break;
-                            case alg::ES256:
+                            case alg_t::ES256:
                             default:
                                 md = EVP_sha256;
                                 break;
@@ -766,9 +766,9 @@ void JWT_Verify(PA_PluginParameters params) {
                 }
                     break;
                     
-                case alg::HS256:
-                case alg::HS384:
-                case alg::HS512:
+                case alg_t::HS256:
+                case alg_t::HS384:
+                case alg_t::HS512:
                 {
                     std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)> ctx(EVP_MD_CTX_new(), EVP_MD_CTX_free);
                     
@@ -777,15 +777,15 @@ void JWT_Verify(PA_PluginParameters params) {
                     
                     switch(alg)
                     {
-                        case alg::HS384:
+                        case alg_t::HS384:
                             md = EVP_sha384;
                             hashlen = 48;
                             break;
-                        case alg::HS512:
+                        case alg_t::HS512:
                             md = EVP_sha512;
                             hashlen = 64;
                             break;
-                        case alg::HS256:
+                        case alg_t::HS256:
                         default:
                             md = EVP_sha256;
                             hashlen = 32;
@@ -817,13 +817,13 @@ void JWT_Verify(PA_PluginParameters params) {
                         const EVP_MD *(*md)();
                         switch(alg)
                         {
-                            case alg::RS384:
+                            case alg_t::RS384:
                                 md = EVP_sha384;
                                 break;
-                            case alg::RS512:
+                            case alg_t::RS512:
                                 md = EVP_sha512;
                                 break;
-                            case alg::RS256:
+                            case alg_t::RS256:
                             default:
                                 md = EVP_sha256;
                                 break;

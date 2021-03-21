@@ -18,14 +18,15 @@
 		D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D130064E12F02D9700702C0E /* Cocoa.framework */; };
 		D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */; settings = {COMPILER_FLAGS = "-Wno-multichar"; }; };
 		D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = D134D4A91A030B06008D14EF /* manifest.json */; };
+		D15E39DC26070B820091EA15 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D17F3E1B24469E140052A861 /* libcrypto.a */; };
+		D15E39DE26070B820091EA15 /* libjwtpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D15E39CF260708E60091EA15 /* libjwtpp.a */; };
+		D15E39E626070C6C0091EA15 /* libjsoncpp_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D15E39D3260709030091EA15 /* libjsoncpp_static.a */; };
+		D15E39ED26070F030091EA15 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D15E39D726070AEC0091EA15 /* libz.tbd */; };
 		D17F3E1424469CCF0052A861 /* C_LONGINT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D17F3E0F24469CCF0052A861 /* C_LONGINT.cpp */; };
 		D17F3E1524469CCF0052A861 /* C_TYPES.h in Headers */ = {isa = PBXBuildFile; fileRef = D17F3E1024469CCF0052A861 /* C_TYPES.h */; };
 		D17F3E1624469CCF0052A861 /* C_LONGINT.h in Headers */ = {isa = PBXBuildFile; fileRef = D17F3E1124469CCF0052A861 /* C_LONGINT.h */; };
 		D17F3E1724469CCF0052A861 /* C_TEXT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D17F3E1224469CCF0052A861 /* C_TEXT.cpp */; };
 		D17F3E1824469CCF0052A861 /* C_TEXT.h in Headers */ = {isa = PBXBuildFile; fileRef = D17F3E1324469CCF0052A861 /* C_TEXT.h */; };
-		D17F3E1C24469E140052A861 /* libjosepp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D17F3E1924469E140052A861 /* libjosepp.a */; };
-		D17F3E1D24469E140052A861 /* libjsoncpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D17F3E1A24469E140052A861 /* libjsoncpp.a */; };
-		D17F3E1E24469E140052A861 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D17F3E1B24469E140052A861 /* libcrypto.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -56,6 +57,11 @@
 		D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = 4DPluginAPI.c; sourceTree = "<group>"; };
 		D134D4A91A030B06008D14EF /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
 		D14D10DD1A03A8A5008B3411 /* constants.xlf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = constants.xlf; sourceTree = "<group>"; };
+		D15E39CF260708E60091EA15 /* libjwtpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjwtpp.a; path = a/libjwtpp.a; sourceTree = "<group>"; };
+		D15E39D3260709030091EA15 /* libjsoncpp_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjsoncpp_static.a; path = a/libjsoncpp_static.a; sourceTree = "<group>"; };
+		D15E39D726070AEC0091EA15 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		D15E39E126070BF60091EA15 /* libjsoncpp.1.9.4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjsoncpp.1.9.4.a; path = a/libjsoncpp.1.9.4.a; sourceTree = "<group>"; };
+		D15E39E726070C6C0091EA15 /* libjsoncpp_object.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjsoncpp_object.a; path = a/libjsoncpp_object.a; sourceTree = "<group>"; };
 		D17F3E0F24469CCF0052A861 /* C_LONGINT.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_LONGINT.cpp; path = "4D Plugin API/Classes/C_LONGINT.cpp"; sourceTree = "<group>"; };
 		D17F3E1024469CCF0052A861 /* C_TYPES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_TYPES.h; path = "4D Plugin API/Classes/C_TYPES.h"; sourceTree = "<group>"; };
 		D17F3E1124469CCF0052A861 /* C_LONGINT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_LONGINT.h; path = "4D Plugin API/Classes/C_LONGINT.h"; sourceTree = "<group>"; };
@@ -71,10 +77,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D17F3E1C24469E140052A861 /* libjosepp.a in Frameworks */,
-				D17F3E1D24469E140052A861 /* libjsoncpp.a in Frameworks */,
-				D17F3E1E24469E140052A861 /* libcrypto.a in Frameworks */,
 				D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */,
+				D15E39E626070C6C0091EA15 /* libjsoncpp_static.a in Frameworks */,
+				D15E39DE26070B820091EA15 /* libjwtpp.a in Frameworks */,
+				D15E39DC26070B820091EA15 /* libcrypto.a in Frameworks */,
+				D15E39ED26070F030091EA15 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +166,11 @@
 		D16FBB3C22A4C07E008F0416 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D15E39E726070C6C0091EA15 /* libjsoncpp_object.a */,
+				D15E39E126070BF60091EA15 /* libjsoncpp.1.9.4.a */,
+				D15E39D726070AEC0091EA15 /* libz.tbd */,
+				D15E39D3260709030091EA15 /* libjsoncpp_static.a */,
+				D15E39CF260708E60091EA15 /* libjwtpp.a */,
 				D17F3E1B24469E140052A861 /* libcrypto.a */,
 				D17F3E1924469E140052A861 /* libjosepp.a */,
 				D17F3E1A24469E140052A861 /* libjsoncpp.a */,
@@ -277,7 +289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if test \"$CONFIGURATION\" == 'Deployment'; then\n\n    USER_NAME=keisuke.miyako@4d.com\n    UUID=`uuidgen | tr -d - | tr -d '\\n' | tr '[:upper:]' '[:lower:]'`\n    DEVELOPER_ID=`security find-identity -p codesigning -v | egrep 'Developer ID Application[^\"]+' -o`\n    PRODUCT_PATH=\"$CODESIGNING_FOLDER_PATH\"\n    \n    #clean\n    xattr -cr \"$PRODUCT_PATH\"\n    codesign --remove-signature \"$PRODUCT_PATH\"\n    \n    #sign\n    codesign --verbose --deep --timestamp --force --sign \"$DEVELOPER_ID\" \"$PRODUCT_PATH\"\n    \n    #archive\n    DMG_PATH=\"$PROJECT_DIR/$PRODUCT_NAME.dmg\"\n    ZIP_PATH=\"$PROJECT_DIR/$PRODUCT_NAME.zip\" #for windows\n    rm -f \"$DMG_PATH\"\n    hdiutil create -format UDBZ -plist -srcfolder \"$PRODUCT_PATH\" \"$DMG_PATH\"\n    rm -f \"$ZIP_PATH\"\n    ditto -c -k --keepParent \"$PRODUCT_PATH\" \"$ZIP_PATH\"\n    \n    # must staple the same dmg that was submitted for notarisation\n    # to staple the bundle inside the dmg too,\n    # one must:\n    # sign the bundle\n    # archive the bundle and notarise the dmg\n    # staple the bundle\n    # archive the bundle and notarise the dmg again\n    # staple the dmg\n    # here, we just staple the dmg. it should be sufficient    \n    \n    #round 2\n    echo \"# staple only the dmg\"\n    echo \"\\r\"\n    echo \"xcrun stapler staple \\\"$DMG_PATH\\\"\"\n    echo \"\\r\"\n    \n    #round 3 (optional)\n    echo \"# staple the bundle and the dmg\"\n    echo \"\\r\"\n    echo \"xcrun stapler staple \\\"$PRODUCT_PATH\\\"\"\n    echo \"rm -f \\\"$DMG_PATH\\\"\"\n    echo \"hdiutil create -format UDBZ -plist -srcfolder  \\\"$PRODUCT_PATH\\\" \\\"$DMG_PATH\\\" \"\n    echo \"xcrun altool --notarize-app --file \\\"$DMG_PATH\\\" --username \\\"$USER_NAME\\\" --password \\\"@keychain:altool\\\" --primary-bundle-id $PRODUCT_BUNDLE_IDENTIFIER.$UUID\"\n    echo \"\\r\"\n    \n    #round 1\n    xcrun altool --notarize-app --file \"$DMG_PATH\" --username \"$USER_NAME\" --password \"@keychain:altool\" --primary-bundle-id $PRODUCT_BUNDLE_IDENTIFIER.$UUID\n    \n    #for round 3    \n    UUID=`uuidgen | tr -d - | tr -d '\\n' | tr '[:upper:]' '[:lower:]'`\nelse\n    echo \"No notarization performed as this is not a release build.\"\nfi\n";
+			shellScript = "if test \"$CONFIGURATION\" == 'Deployment'; then\n\n    USER_NAME=keisuke.miyako@4d.com\n    UUID=`uuidgen | tr -d - | tr -d '\\n' | tr '[:upper:]' '[:lower:]'`\n    DEVELOPER_ID=`security find-identity -p codesigning -v | egrep 'Developer ID Application[^\"]+' -o`\n    PRODUCT_PATH=\"$CODESIGNING_FOLDER_PATH\"\n    \n    #clean\n    xattr -cr \"$PRODUCT_PATH\"\n    codesign --remove-signature \"$PRODUCT_PATH\"\n    \n    #sign\n    codesign --verbose --deep --timestamp --force --sign \"$DEVELOPER_ID\" \"$PRODUCT_PATH\"\n    \n    #archive\n    DMG_PATH=\"$PROJECT_DIR/$PRODUCT_NAME.dmg\"\n    ZIP_PATH=\"$PROJECT_DIR/$PRODUCT_NAME.zip\" #for windows\n    rm -f \"$DMG_PATH\"\n    hdiutil create -format UDBZ -plist -srcfolder \"$PRODUCT_PATH\" \"$DMG_PATH\"\n    rm -f \"$ZIP_PATH\"\n    ditto -c -k --keepParent \"$PRODUCT_PATH\" \"$ZIP_PATH\"\n    \n    # must staple the same dmg that was submitted for notarisation\n    # to staple the bundle inside the dmg too,\n    # one must:\n    # sign the bundle\n    # archive the bundle and notarise the dmg\n    # staple the bundle\n    # archive the bundle and notarise the dmg again\n    # staple the dmg\n    # here, we just staple the dmg. it should be sufficient    \n    \n    #round 2\n    echo \"# staple only the dmg\"\n    echo \"\\r\"\n    echo \"xcrun stapler staple \\\"$DMG_PATH\\\"\"\n    echo \"\\r\"\n    \n    #round 3 (optional)\n    echo \"# staple the bundle and the dmg\"\n    echo \"\\r\"\n    echo \"xcrun stapler staple \\\"$PRODUCT_PATH\\\"\"\n    echo \"rm -f \\\"$DMG_PATH\\\"\"\n    echo \"hdiutil create -format UDBZ -plist -srcfolder  \\\"$PRODUCT_PATH\\\" \\\"$DMG_PATH\\\" \"\n    echo \"xcrun altool --notarize-app --file \\\"$DMG_PATH\\\" --username \\\"$USER_NAME\\\" --password \\\"@keychain:altool\\\" --primary-bundle-id $PRODUCT_BUNDLE_IDENTIFIER.$UUID\"\n    echo \"\\r\"\n    \n    #round 1\n    xcrun altool --notarize-app --file \"$DMG_PATH\" --username \"$USER_NAME\" --password \"@keychain:altool\" --primary-bundle-id $PRODUCT_BUNDLE_IDENTIFIER.$UUID\n    \n    #for round 3    \n    UUID=`uuidgen | tr -d - | tr -d '\\n' | tr '[:upper:]' '[:lower:]'`\nelse\n    echo \"No notarization performed as this is not a release build.\"\nfi\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -499,7 +511,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
@@ -545,7 +557,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
@@ -591,7 +603,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
 			};
