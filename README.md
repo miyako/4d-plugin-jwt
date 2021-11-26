@@ -8,6 +8,10 @@
 # 4d-plugin-jwt
 Sign and Verify JSON Web Token based on ~~[josepp](https://github.com/troian/josepp)~~ [jwtpp](https://github.com/troian/jwtpp) and [jsoncpp](https://github.com/open-source-parsers/jsoncpp).
 
+### Native solution available
+
+Please note that [CryptoKey](https://developer.4d.com/docs/en/API/CryptoKeyClass.html) can be used to process JWT.
+
 ## Included In This Repo
 • Source code for the plugin
 • Test database (folder `test`)
