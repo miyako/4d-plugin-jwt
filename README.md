@@ -12,6 +12,8 @@ Sign and Verify JSON Web Token based on ~~[josepp](https://github.com/troian/jos
 
 Please note that [CryptoKey](https://developer.4d.com/docs/en/API/CryptoKeyClass.html) can be used to process JWT.
 
+c.f. https://blog.4d.com/cryptokey-encrypt-decrypt-sign-and-verify/
+
 ## Included In This Repo
 • Source code for the plugin
 • Test database (folder `test`)
