@@ -1,4 +1,4 @@
-﻿{
+{
 	"Sources/DatabaseMethods/onStartup.4dm": {
 		"left": 322,
 		"top": 651,
@@ -162,8 +162,8 @@
 		"height": 758
 	},
 	"Sources/Methods/TEST_ES.4dm": {
-		"left": 306,
-		"top": 157,
+		"left": 645,
+		"top": 153,
 		"width": 877,
 		"height": 637
 	},
