@@ -3,14 +3,12 @@
 [![license](https://img.shields.io/github/license/miyako/4d-plugin-jwt)](LICENSE)
 ![downloads](https://img.shields.io/github/downloads/miyako/4d-plugin-jwt/total)
 
-**Note**: for v17 and earlier, move `manifest.json` to `Contents`
-
 # 4d-plugin-jwt
 Sign and Verify JSON Web Token based on ~~[josepp](https://github.com/troian/josepp)~~ [jwtpp](https://github.com/troian/jwtpp) and [jsoncpp](https://github.com/open-source-parsers/jsoncpp).
 
 ### Native solution available
 
-Please note that [CryptoKey](https://developer.4d.com/docs/en/API/CryptoKeyClass.html) can be used to process JWT.
+Please note that [CryptoKey](https://developer.4d.com/docs/API/CryptoKeyClass/#4dcryptokeynew) can be used to process JWT.
 
 c.f. https://blog.4d.com/cryptokey-encrypt-decrypt-sign-and-verify/
 
