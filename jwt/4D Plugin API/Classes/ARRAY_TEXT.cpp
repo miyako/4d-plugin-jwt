@@ -319,6 +319,16 @@ ARRAY_TEXT::ARRAY_TEXT() : _CUTF16StringArray(new CUTF16StringArray)
 	
 }
 
+ARRAY_TEXT::ARRAY_TEXT(const ARRAY_TEXT& other) : _CUTF16StringArray(new CUTF16StringArray(*other._CUTF16StringArray))
+{
+}
+
+ARRAY_TEXT& ARRAY_TEXT::operator=(const ARRAY_TEXT& other)
+{
+	*_CUTF16StringArray = *other._CUTF16StringArray;
+	return *this;
+}
+
 ARRAY_TEXT::~ARRAY_TEXT()
 { 
 	delete _CUTF16StringArray; 
