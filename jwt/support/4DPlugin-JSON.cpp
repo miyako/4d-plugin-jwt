@@ -1,4 +1,38 @@
 #include "4DPlugin-JSON.h"
+#include <stdexcept>
+
+class JSONPropertyResult {
+public:
+    PA_Variable value;
+    bool defined;
+
+    JSONPropertyResult(PA_ObjectRef obj, const wchar_t *name) : defined(false), owns(false) {
+        if(!obj) return;
+        CUTF16String ukey;
+        json_wconv(name, &ukey);
+        PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
+        if(PA_GetLastError() != eER_NoErr)
+            throw std::runtime_error("Cannot create JSON property key");
+        defined = PA_HasObjectProperty(obj, &key);
+        PA_ErrorCode error = PA_GetLastError();
+        if(error == eER_NoErr && defined) {
+            value = PA_GetObjectProperty(obj, &key);
+            error = PA_GetLastError();
+        }
+        PA_DisposeUnistring(&key);
+        if(error != eER_NoErr)
+            throw std::runtime_error("Cannot read JSON property");
+        owns = defined;
+    }
+
+    ~JSONPropertyResult() { if(owns) PA_ClearVariable(&value); }
+    void release() { owns = false; }
+
+private:
+    bool owns;
+    JSONPropertyResult(const JSONPropertyResult&) = delete;
+    JSONPropertyResult& operator=(const JSONPropertyResult&) = delete;
+};
 
 void json_wconv(const wchar_t *value, CUTF16String *u16) {
     
@@ -25,7 +59,7 @@ void ob_set_p(PA_ObjectRef obj, const wchar_t *_key, PA_Picture value) {
     {
         if(value)
         {
-            PA_Variable v = PA_CreateVariable(eVK_Picture);
+            PA_Variable v;
             CUTF16String ukey;
             json_wconv(_key, &ukey);
             PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
@@ -86,7 +120,7 @@ void ob_set_s(PA_ObjectRef obj, const char *_key, const char *_value) {
         PA_Unistring key = PA_CreateUnistring((PA_Unichar *)u16k.c_str());
         PA_Unistring value = PA_CreateUnistring((PA_Unichar *)u16v.c_str());
         
-        PA_Variable v = PA_CreateVariable(eVK_Unistring);
+        PA_Variable v;
         PA_SetStringVariable(&v, &value);
         PA_SetObjectProperty(obj, &key, v);
         
@@ -103,7 +137,7 @@ void ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value) {
     {
         if(_value)
         {
-            PA_Variable v = PA_CreateVariable(eVK_Unistring);
+            PA_Variable v;
             CUTF16String ukey;
             
             json_wconv(_key, &ukey);
@@ -149,7 +183,7 @@ void ob_set_a(PA_ObjectRef obj, const wchar_t *_key, CUTF16String *value) {
     
     if(obj)
     {
-            PA_Variable v = PA_CreateVariable(eVK_Unistring);
+            PA_Variable v;
             CUTF16String ukey;
             json_wconv(_key, &ukey);
  
@@ -170,7 +204,7 @@ void ob_set_a(PA_ObjectRef obj, const wchar_t *_key, const wchar_t *_value) {
     {
         if(_value)
         {
-            PA_Variable v = PA_CreateVariable(eVK_Unistring);
+            PA_Variable v;
             CUTF16String ukey;
             CUTF16String uvalue;
             json_wconv(_key, &ukey);
@@ -422,8 +456,10 @@ bool ob_is_defined(PA_ObjectRef obj, const wchar_t *_key) {
         PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
         
         is_defined = PA_HasObjectProperty(obj, &key);
-        
+        PA_ErrorCode error = PA_GetLastError();
         PA_DisposeUnistring(&key);
+        if(error != eER_NoErr)
+            throw std::runtime_error("Cannot check JSON property");
     }
     return is_defined;
 }
@@ -434,17 +470,17 @@ bool ob_get_s(PA_ObjectRef obj, const wchar_t *_key, CUTF8String *value) {
     
     if(obj)
     {
-        CUTF16String ukey;
-        json_wconv(_key, &ukey);
-        PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
-        is_defined = PA_HasObjectProperty(obj, &key);
+        JSONPropertyResult result(obj, _key);
+        is_defined = result.defined;
         
         if(is_defined)
         {
-            PA_Variable v = PA_GetObjectProperty(obj, &key);
+            PA_Variable v = result.value;
             if(PA_GetVariableKind(v) == eVK_Unistring)
             {
                 PA_Unistring uvalue = PA_GetStringVariable(v);
+                if(PA_GetLastError() != eER_NoErr)
+                    throw std::runtime_error("Cannot read JSON string");
                 
                 CUTF16String u = CUTF16String(uvalue.fString, uvalue.fLength);
 #ifdef _WIN32
@@ -482,7 +518,6 @@ bool ob_get_s(PA_ObjectRef obj, const wchar_t *_key, CUTF8String *value) {
             }
         }
         
-        PA_DisposeUnistring(&key);
     }
     
     return is_defined;
@@ -494,22 +529,21 @@ bool ob_get_a(PA_ObjectRef obj, const wchar_t *_key, CUTF16String *value) {
     
     if(obj)
     {
-        CUTF16String ukey;
-        json_wconv(_key, &ukey);
-        PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
-        is_defined = PA_HasObjectProperty(obj, &key);
+        JSONPropertyResult result(obj, _key);
+        is_defined = result.defined;
         
         if(is_defined)
         {
-            PA_Variable v = PA_GetObjectProperty(obj, &key);
+            PA_Variable v = result.value;
             if(PA_GetVariableKind(v) == eVK_Unistring)
             {
                 PA_Unistring uvalue = PA_GetStringVariable(v);
+                if(PA_GetLastError() != eER_NoErr)
+                    throw std::runtime_error("Cannot read JSON string");
                 *value = CUTF16String(uvalue.fString, uvalue.fLength);
             }
         }
         
-        PA_DisposeUnistring(&key);
     }
     
     return is_defined;
@@ -521,20 +555,17 @@ bool ob_get_b(PA_ObjectRef obj, const wchar_t *_key) {
     
     if(obj)
     {
-        CUTF16String ukey;
-        json_wconv(_key, &ukey);
-        PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
+        JSONPropertyResult result(obj, _key);
         
-        if(PA_HasObjectProperty(obj, &key))
+        if(result.defined)
         {
-            PA_Variable v = PA_GetObjectProperty(obj, &key);
+            PA_Variable v = result.value;
             if(PA_GetVariableKind(v) == eVK_Boolean)
             {
                 value = PA_GetBooleanVariable(v);
             }
         }
         
-        PA_DisposeUnistring(&key);
     }
     
     return value;
@@ -546,20 +577,17 @@ double ob_get_n(PA_ObjectRef obj, const wchar_t *_key) {
     
     if(obj)
     {
-        CUTF16String ukey;
-        json_wconv(_key, &ukey);
-        PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
+        JSONPropertyResult result(obj, _key);
         
-        if(PA_HasObjectProperty(obj, &key))
+        if(result.defined)
         {
-            PA_Variable v = PA_GetObjectProperty(obj, &key);
+            PA_Variable v = result.value;
             if(PA_GetVariableKind(v) == eVK_Real)
             {
                 value = PA_GetRealVariable(v);
             }
         }
         
-        PA_DisposeUnistring(&key);
     }
     
     return value;
@@ -571,20 +599,18 @@ PA_ObjectRef ob_get_o(PA_ObjectRef obj, const wchar_t *_key) {
     
     if(obj)
     {
-        CUTF16String ukey;
-        json_wconv(_key, &ukey);
-        PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
+        JSONPropertyResult result(obj, _key);
         
-        if(PA_HasObjectProperty(obj, &key))
+        if(result.defined)
         {
-            PA_Variable v = PA_GetObjectProperty(obj, &key);
+            PA_Variable v = result.value;
             if(PA_GetVariableKind(v) == eVK_Object)
             {
                 value = PA_GetObjectVariable(v);
+                result.release();
             }
         }
         
-        PA_DisposeUnistring(&key);
     }
     return value;
 }
@@ -595,20 +621,18 @@ PA_CollectionRef ob_get_c(PA_ObjectRef obj, const wchar_t *_key) {
     
     if(obj)
     {
-        CUTF16String ukey;
-        json_wconv(_key, &ukey);
-        PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
+        JSONPropertyResult result(obj, _key);
         
-        if(PA_HasObjectProperty(obj, &key))
+        if(result.defined)
         {
-            PA_Variable v = PA_GetObjectProperty(obj, &key);
+            PA_Variable v = result.value;
             if(PA_GetVariableKind(v) == eVK_Collection)
             {
                 value = PA_GetCollectionVariable(v);
+                result.release();
             }
         }
         
-        PA_DisposeUnistring(&key);
     }
     return value;
 }
@@ -616,12 +640,23 @@ PA_CollectionRef ob_get_c(PA_ObjectRef obj, const wchar_t *_key) {
 void ob_stringify(PA_ObjectRef obj, CUTF8String *value) {
     
     PA_Variable    _params[1];
-    _params[0] = PA_CreateVariable(eVK_Object);
-    PA_SetObjectVariable(&_params[0], PA_DuplicateObject(obj));
+    // The synchronous command borrows this reference; it does not need a duplicate.
+    PA_SetObjectVariable(&_params[0], obj);
     PA_Variable vjson = PA_ExecuteCommandByID( /*JSON Stringify */1217, _params, 1);
-    PA_ClearVariable(&_params[0]);
+    PA_ErrorCode error = PA_GetLastError();
+    if(error != eER_NoErr)
+        throw std::runtime_error("Cannot stringify JSON object");
+    if(PA_GetVariableKind(vjson) != eVK_Unistring) {
+        PA_ClearVariable(&vjson);
+        throw std::runtime_error("JSON stringify returned a non-text result");
+    }
     
     PA_Unistring ujson = PA_GetStringVariable(vjson);
+    error = PA_GetLastError();
+    if(error != eER_NoErr) {
+        PA_ClearVariable(&vjson);
+        throw std::runtime_error("Cannot read JSON stringify result");
+    }
     
 #ifdef _WIN32
     int len = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)ujson.fString, ujson.fLength, NULL, 0, NULL, NULL);

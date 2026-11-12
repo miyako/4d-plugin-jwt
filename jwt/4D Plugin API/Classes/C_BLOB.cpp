@@ -391,6 +391,16 @@ C_BLOB::C_BLOB() : _CBytes(new CBytes)
 	
 }
 
+C_BLOB::C_BLOB(const C_BLOB& other) : _CBytes(new CBytes(*other._CBytes))
+{
+}
+
+C_BLOB& C_BLOB::operator=(const C_BLOB& other)
+{
+	*_CBytes = *other._CBytes;
+	return *this;
+}
+
 C_BLOB::~C_BLOB()
 { 
 	delete _CBytes; 

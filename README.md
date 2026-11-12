@@ -16,6 +16,17 @@ c.f. https://blog.4d.com/cryptokey-encrypt-decrypt-sign-and-verify/
 • Source code for the plugin
 • Test database (folder `test`)
 
+## Native ownership regression
+
+The [ownership audit](docs/ownership-audit.md) records bundled SDK contracts,
+compiled and dormant helper coverage, paired baseline/fixed evidence, and
+platform limits. The safe synthetic regression runs without project signing
+or packaging phases:
+
+```sh
+python3 tests/run_ownership.py --output /tmp/jwt-ownership-results
+```
+
 ## Installation Instructions
 1. Extract either the **JWT.DMG** or the **JWT.zip** archives
 2. Add the **JWT.bundle** to your database's **Plugins** folder.

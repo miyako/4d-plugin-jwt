@@ -62,6 +62,8 @@ extern "C" {
 		void copyPath(CUTF8String* pString);
 		
 		C_TEXT();
+		C_TEXT(const C_TEXT& other);
+		C_TEXT& operator=(const C_TEXT& other);
 		~C_TEXT();
 		
 	};

@@ -53,6 +53,8 @@ bool ob_get_a(PA_ObjectRef obj, const wchar_t *_key, CUTF16String *value);
 bool ob_get_b(PA_ObjectRef obj, const wchar_t *_key);
 double ob_get_n(PA_ObjectRef obj, const wchar_t *_key);
 
+// Matching object/collection getters hand off an owned reference; callers dispose it.
+// Getter/stringify engine errors throw std::runtime_error, not an absent-property result.
 PA_CollectionRef ob_get_c(PA_ObjectRef obj, const wchar_t *_key);
 PA_ObjectRef ob_get_o(PA_ObjectRef obj, const wchar_t *_key);
 

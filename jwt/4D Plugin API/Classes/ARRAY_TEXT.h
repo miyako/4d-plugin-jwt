@@ -62,6 +62,8 @@ public:
 	void setSize(uint32_t size);
 	
 	ARRAY_TEXT();
+	ARRAY_TEXT(const ARRAY_TEXT& other);
+	ARRAY_TEXT& operator=(const ARRAY_TEXT& other);
 	~ARRAY_TEXT();
 
 };
