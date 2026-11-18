@@ -187,3 +187,19 @@ host callback, actual picture payload, filesystem convenience-method, or
 third-party crypto test was performed. Engine behavior beyond the documented
 SDK ownership and forwarding contracts is not claimed. No native-host crash
 reproduction or blanket SDK correctness claim is made.
+
+## Shared-source resync note
+
+The shared files were later resynced to the canonical copies in
+`4d-plugin-migration` (`C_TYPES.h`, `C_TEXT.*`, `C_LONGINT.*`,
+`support/4DPlugin-JSON.*`). Two audited behaviors intentionally changed with
+that resync:
+
+- `C_TEXT` copy construction/assignment are now deleted (the earlier deep-copy
+  fix is superseded); no compiled consumer copies `C_TEXT`.
+- The `ob_get_*`/`ob_stringify` helpers return defaults on engine errors
+  instead of throwing, matching the canonical contract. `ob_get_o`/`ob_get_c`
+  transfer the returned reference to the caller (dispose it with
+  `PA_DisposeObject`/`PA_DisposeCollection`); scalar getters release the
+  fetched variable themselves. The regression expectations were updated
+  accordingly; all 114 cases still pass.
