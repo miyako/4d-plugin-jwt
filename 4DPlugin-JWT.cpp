@@ -44,7 +44,7 @@ void convertFromString(std::string &fromString, C_TEXT &toString)
     if(len){
         std::vector<uint8_t> buf((len + 1) * sizeof(PA_Unichar));
         if(MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)fromString.c_str(), fromString.length(), (LPWSTR)&buf[0], len)){
-            CUTF16String u16 = CUTF16String((const PA_Unichar *)&buf[0]);
+            CUTF16String u16 = CUTF16String((const PA_Unichar *)&buf[0], (size_t)len);
             toString.setUTF16String(&u16);
         }
     }else{
@@ -57,7 +57,7 @@ void convertFromString(std::string &fromString, C_TEXT &toString)
         CFIndex len = CFStringGetLength(str);
         std::vector<uint8_t> buf((len+1) * sizeof(PA_Unichar));
         CFStringGetCharacters(str, CFRangeMake(0, len), (UniChar *)&buf[0]);
-        CUTF16String u16 = CUTF16String((const PA_Unichar *)&buf[0]);
+        CUTF16String u16 = CUTF16String((const PA_Unichar *)&buf[0], (size_t)len);
         toString.setUTF16String(&u16);
         CFRelease(str);
     }
@@ -72,7 +72,7 @@ void convertToString(C_TEXT &fromString, std::string &toString)
     if(len){
         std::vector<uint8_t> buf(len + 1);
         if(WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)fromString.getUTF16StringPtr(), fromString.getUTF16Length(), (LPSTR)&buf[0], len, NULL, NULL)){
-            toString = std::string((const char *)&buf[0]);
+            toString = std::string((const char *)&buf[0], (size_t)len);
         }
     }else{
         toString = std::string((const char *)"\0");
@@ -374,22 +374,25 @@ void JWT_Sign(PA_PluginParameters params) {
                                         hash.resize(len);
                                         std::unique_ptr<ECDSA_SIG, decltype(&ECDSA_SIG_free)>
                                         sig(ECDSA_do_sign((const unsigned char *)hash.data(), (int)hash.size(), key), ECDSA_SIG_free);
-                                        
-                                        const BIGNUM *r;
-                                        const BIGNUM *s;
-                                        ECDSA_SIG_get0(sig.get(), &r, &s);
-                                           
-                                        vector<unsigned char > buf(BN_num_bytes(r) + BN_num_bytes(s));
 
-                                        memset(&buf[0], 0, buf.size());
- 
-                                        BN_bn2bin(r, &buf[0]);
-                                        BN_bn2bin(s, &buf[BN_num_bytes(r)]);
-                                        
-                                        sign = base64_encode_uri((const unsigned char *)&buf[0], buf.size());
-                                                                                
-                                        bearer = data + "." + sign;
-                                        
+                                        const BIGNUM *r = NULL;
+                                        const BIGNUM *s = NULL;
+                                        if(sig.get()) ECDSA_SIG_get0(sig.get(), &r, &s);
+
+                                        if(r && s)
+                                        {
+                                            vector<unsigned char > buf(BN_num_bytes(r) + BN_num_bytes(s));
+
+                                            memset(&buf[0], 0, buf.size());
+
+                                            BN_bn2bin(r, &buf[0]);
+                                            BN_bn2bin(s, &buf[BN_num_bytes(r)]);
+
+                                            sign = base64_encode_uri((const unsigned char *)&buf[0], buf.size());
+
+                                            bearer = data + "." + sign;
+                                        }
+
                                     }
                                 }
                             }
@@ -486,7 +489,14 @@ void JWT_Sign(PA_PluginParameters params) {
                         
                         EVP_MD_CTX* ctx = EVP_MD_CTX_create();
                         EVP_PKEY* priKey  = EVP_PKEY_new();
-                                        
+
+                        if(!priKey)
+                        {
+                            RSA_free(key);
+                            EVP_MD_CTX_free(ctx);
+                            break;
+                        }
+
                         EVP_PKEY_assign_RSA(priKey, key);/* do not need to release key */
                         
                         if (EVP_DigestSignInit(ctx,
@@ -595,7 +605,8 @@ void JWT_Verify(PA_PluginParameters params) {
         
         base64_decode_uri(buf, header);
         
-        std::string header_json = std::string((const char *)&buf[0]);
+        std::string header_json = buf.empty() ? std::string() :
+            std::string((const char *)&buf[0], buf.size());
         
         Value root;
         CharReaderBuilder builder;
@@ -732,6 +743,8 @@ void JWT_Verify(PA_PluginParameters params) {
                                     
                                     std::unique_ptr<ECDSA_SIG, decltype(&ECDSA_SIG_free)> sig(ECDSA_SIG_new(), ECDSA_SIG_free);
 
+                                    if(hash.empty()) break;
+
                                     size_t hashlen = hash.size();
 
                                     int rlen = int(hashlen / 2);
@@ -830,8 +843,13 @@ void JWT_Verify(PA_PluginParameters params) {
                         }
                         
                         EVP_PKEY* pubKey  = EVP_PKEY_new();
+                        if(!pubKey)
+                        {
+                            RSA_free(key);
+                            break;
+                        }
                         EVP_PKEY_assign_RSA(pubKey, key);
-                        
+
                         EVP_MD_CTX* ctx = EVP_MD_CTX_create();
                         
                         if (EVP_DigestVerifyInit(ctx,
@@ -844,10 +862,10 @@ void JWT_Verify(PA_PluginParameters params) {
                                                        data.c_str(),
                                                        data.length()) != 0) {
                                 
-                                int verify = EVP_DigestVerifyFinal(ctx,
+                                int verify = hash.empty() ? 0 : EVP_DigestVerifyFinal(ctx,
                                                                    (const unsigned char *)&hash[0],
                                                                    hash.size());
-                                
+
                                 returnValue.setIntValue(verify);
                             }
                             
