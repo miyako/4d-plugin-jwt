@@ -10,6 +10,7 @@ DENY(EC_KEY *, PEM_read_bio_ECPrivateKey, (BIO *, EC_KEY **, pem_password_cb *, 
 DENY(EC_KEY *, PEM_read_bio_EC_PUBKEY, (BIO *, EC_KEY **, pem_password_cb *, void *))
 DENY(RSA *, PEM_read_bio_RSAPrivateKey, (BIO *, RSA **, pem_password_cb *, void *))
 DENY(RSA *, PEM_read_bio_RSA_PUBKEY, (BIO *, RSA **, pem_password_cb *, void *))
+DENY(void, RSA_free, (RSA *))
 DENY(int, EC_KEY_check_key, (const EC_KEY *))
 DENY(void, EC_KEY_free, (EC_KEY *))
 DENY(EVP_MD_CTX *, EVP_MD_CTX_new, (void))

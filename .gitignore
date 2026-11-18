@@ -1,1 +1,16 @@
-jwt/build/*
+.DS_Store
+build/
+Objs/
+/JWT.dmg
+/JWT.zip
+test/Data/Logs/
+test/Logs/
+test/userPreferences.*/
+test/Project/DerivedData/
+test/Plugins/JWT.bundle/Contents/MacOS/
+test/Plugins/JWT.bundle/Contents/_CodeSignature/
+*.4dbase/Logs/
+*.4dbase/userPreferences.*/
+JWT.bundle/Contents/MacOS/
+JWT.bundle/Contents/_CodeSignature/
+test/Plugins/JWT.bundle/Contents/Info.plist

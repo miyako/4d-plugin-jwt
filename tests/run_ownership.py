@@ -15,16 +15,16 @@ parser.add_argument("--output", type=Path, required=True)
 args = parser.parse_args()
 root = args.source.resolve()
 args.output.mkdir(parents=True, exist_ok=True)
-api = root / "jwt/4D Plugin API"
+api = root / "4D Plugin API"
 classes = api / "Classes"
 tests = Path(__file__).resolve().parent
 sources = [api / "4DPluginAPI.c", *[classes / f"{n}.cpp" for n in
            ("C_TEXT", "C_LONGINT", "C_BLOB", "ARRAY_TEXT")],
-           root / "jwt/support/4DPlugin-JSON.cpp", root / "jwt/4DPlugin-JWT.cpp"]
+           root / "support/4DPlugin-JSON.cpp", root / "4DPlugin-JWT.cpp"]
 common = ["-g", "-O1", "-fsanitize=address,undefined", "-fno-sanitize=alignment",
           "-Wno-deprecated-declarations", "-Wno-multichar", "-Wno-int-conversion",
-          "-I" + str(root / "jwt"), "-I" + str(api), "-I" + str(classes), "-I" + str(root / "jwt/support"),
-          "-I" + str(root / "jwt/include")]
+          "-I" + str(root), "-I" + str(api), "-I" + str(classes), "-I" + str(root / "support"),
+          "-I" + str(root / "include")]
 with tempfile.TemporaryDirectory(prefix="jwt-ownership-") as work:
     work = Path(work)
     objects = []
@@ -46,8 +46,8 @@ with tempfile.TemporaryDirectory(prefix="jwt-ownership-") as work:
     exe = work / "ownership"
     cmd = ["clang++", "-std=c++14", "-x", "objective-c++", str(tests / "ownership.cpp"),
            str(tests / "crypto_boundary.cpp"),
-           *common, "-x", "none", *objects, str(root / "jwt/a/libjwtpp.a"),
-           str(root / "jwt/a/libjsoncpp_static.a"),
+           *common, "-x", "none", *objects, str(root / "a/libjwtpp.a"),
+           str(root / "a/libjsoncpp_static.a"),
            "-framework", "Cocoa", "-framework", "CoreGraphics", "-o", str(exe)]
     commands.append(cmd)
     subprocess.run(cmd, check=True)
@@ -71,13 +71,14 @@ with tempfile.TemporaryDirectory(prefix="jwt-ownership-") as work:
                   if line.strip() not in allowed and not line.strip().startswith(prefixes)]
     if unexpected:
         raise RuntimeError(f"Denied unexpected imports before execution: {unexpected}")
-    cases = [f"get-{getter}-{kind}" for getter in "sabnoc" for kind in
+    cases = [f"get-{getter}-{kind}" for getter in "abnoc" for kind in
              ("text", "raw0", "empty", "boolean", "number", "picture", "object", "collection",
               "error", "haserror", "missing", "stringerror")]
     cases += [f"set-{kind}" for kind in ("ss", "ws", "wa", "ww", "empty", "bmp", "supplementary",
               "picture", "number", "number-char", "bool", "null", "null-char", "integer",
               "object", "object-char", "collection")]
-    cases += [f"{op}-{kind}" for op in ("copy", "assign") for kind in ("text", "array", "blob")]
+    # C_TEXT copy ctor/assignment are deleted in the canonical shared source.
+    cases += [f"{op}-{kind}" for op in ("copy", "assign") for kind in ("array", "blob")]
     cases += ["stringify-text", "stringify-raw0", "stringify-number", "stringify-error", "stringify-stringerror",
               "array-roundtrip", "array-replace", "array-shrink", "array-independent", "array-ascii", "array-bmp",
               "array-supplementary", "array-empty",
@@ -100,8 +101,8 @@ with tempfile.TemporaryDirectory(prefix="jwt-ownership-") as work:
     manifest["runner"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     manifest["crypto_boundary"] = hashlib.sha256((tests / "crypto_boundary.cpp").read_bytes()).hexdigest()
     for path in [*api.glob("*.h"), *api.glob("*.def"), *classes.glob("*.h"),
-                 root / "jwt/support/4DPlugin-JSON.h", root / "jwt/4DPlugin-JWT.h",
-                 root / "jwt/a/libjwtpp.a", root / "jwt/a/libjsoncpp_static.a"]:
+                 root / "support/4DPlugin-JSON.h", root / "4DPlugin-JWT.h",
+                 root / "a/libjwtpp.a", root / "a/libjsoncpp_static.a"]:
         manifest[str(path.relative_to(root))] = hashlib.sha256(path.read_bytes()).hexdigest()
     report = {"sources": manifest, "commands": commands, "cases": results,
               "platform": {"machine": platform.machine(), "macOS": platform.mac_ver()[0]},

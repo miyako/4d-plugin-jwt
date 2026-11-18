@@ -200,9 +200,7 @@ static void getCase(const std::string &name)
 {
     auto obj = reinterpret_cast<PA_ObjectRef>(1);
     CUTF8String u8;
-    CUTF16String u16;
-    if(name == "s") ob_get_s(obj, L"key", &u8);
-    if(name == "a") ob_get_a(obj, L"key", &u16);
+    if(name == "a") ob_get_a(obj, L"key", &u8);
     if(name == "b") ob_get_b(obj, L"key");
     if(name == "n") ob_get_n(obj, L"key");
     if(name == "o")
@@ -215,10 +213,9 @@ static void getCase(const std::string &name)
         auto result = ob_get_c(obj, L"key");
         if(result) PA_DisposeCollection(result);
     }
-    if((property.fType == eVK_Unistring || property.fType == 0) && !failGet && !missing)
+    if((property.fType == eVK_Unistring || property.fType == 0) && !failGet && !missing && !failString)
     {
-        if(name == "a") expect(u16 == CUTF16String(property.uValue.fString.fString));
-        if(name == "s") expect(u8 == CUTF8String(reinterpret_cast<const uint8_t *>(
+        if(name == "a") expect(u8 == CUTF8String(reinterpret_cast<const uint8_t *>(
             property.uValue.fString.fLength ? "A\xe6\x97\xa5\xf0\x9f\x98\x80" : "")));
     }
 }
@@ -252,7 +249,8 @@ static void test(const std::string &name)
         else { property.fType = eVK_Real; property.uValue.fReal = 12.5; }
         bool caught = false;
         try { getCase(name.substr(4, 1)); } catch(const std::runtime_error &) { caught = true; }
-        expect(caught == (failGet || failHas || (failString && (name[4] == 's' || name[4] == 'a'))));
+        // Canonical ob_get_* helpers return defaults on engine errors; they do not throw.
+        expect(!caught);
         clear(&property);
     }
     else if(name.find("set-") == 0)
@@ -302,21 +300,10 @@ static void test(const std::string &name)
         CUTF8String result;
         bool caught = false;
         try { ob_stringify(obj, &result); } catch(const std::runtime_error &) { caught = true; }
-        expect(caught == (failCommand || failString || name == "stringify-number"));
-        if(!caught) expect(result.size() == 8);
+        // Canonical ob_stringify returns an empty result on engine errors; it does not throw.
+        expect(!caught);
+        if(!caught && !failCommand && !failString && name != "stringify-number") expect(result.size() == 8);
         clear(&property);
-    }
-    else if(name == "copy-text" || name == "assign-text")
-    {
-        C_TEXT target;
-        {
-            C_TEXT source;
-            source.setUTF16String(fixture, 4);
-            if(name == "assign-text") target = source;
-            else { C_TEXT copy(source); copy.setUTF16String(empty, 0); }
-            expect(source.getUTF16Length() == 4);
-        }
-        if(name == "assign-text") expect(target.getUTF16Length() == 4);
     }
     else if(name == "copy-array" || name == "assign-array")
     {
@@ -421,7 +408,7 @@ static void test(const std::string &name)
         failHas = name == "defined-error";
         bool caught = false, result = false;
         try { result = ob_is_defined(obj, L"key"); } catch(const std::runtime_error &) { caught = true; }
-        expect(caught == failHas);
+        expect(!caught);
         if(!caught) expect(result == !missing);
     }
     else if(name == "scalar-synchronous") {
