@@ -125,6 +125,28 @@ jobs:
           Write-Host "PlatformToolset: $toolset"
           "PLATFORM_TOOLSET=$toolset" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
+      # The committed lib/windows64/{jsoncpp,josepp}.lib binaries predate the
+      # vendored headers and fail to link (missing Json::*/jwtpp:: symbols).
+      # They are rebuilt here from pinned upstream sources and cached.
+      - name: restore windows libraries
+        id: winlibs
+        uses: actions/cache@v4
+        with:
+          path: |
+            lib/windows64/jsoncpp.lib
+            lib/windows64/jwtpp.lib
+            .windows-deps/
+          key: win-libs-v1-${{ env.PLATFORM_TOOLSET }}-${{ hashFiles('scripts/build-windows-jsoncpp.sh', 'scripts/build-windows-jwtpp.sh') }}
+
+      - name: build windows dependencies
+        if: steps.winlibs.outputs.cache-hit != 'true'
+        shell: bash
+        env:
+          PLATFORM_TOOLSET: ${{ env.PLATFORM_TOOLSET }}
+        run: |
+          ./scripts/build-windows-jsoncpp.sh
+          ./scripts/build-windows-jwtpp.sh
+
       # The vcxproj may pin a legacy toolset (v100/v140) and SDK 8.1 that the
       # runner lacks, so both are overridden on the command line.
       - name: build x64

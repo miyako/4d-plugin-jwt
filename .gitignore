@@ -14,3 +14,11 @@ test/Plugins/JWT.bundle/Contents/_CodeSignature/
 JWT.bundle/Contents/MacOS/
 JWT.bundle/Contents/_CodeSignature/
 test/Plugins/JWT.bundle/Contents/Info.plist
+
+# Windows dependency libs are rebuilt in CI from pinned upstream sources
+# (scripts/build-windows-*.sh); never commit local builds of these.
+lib/windows64/jsoncpp.lib
+lib/windows64/jwtpp.lib
+lib/windows/jsoncpp.lib
+lib/windows/jwtpp.lib
+.windows-deps/
