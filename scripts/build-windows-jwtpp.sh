@@ -33,6 +33,7 @@ if [ ! -d .git ]; then
 fi
 
 cmake -S . -B "../build" -A x64 -T "$TOOLSET" \
+  -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
   -DCMAKE_POLICY_DEFAULT_CMP0091=NEW \
   -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded \
   -DOPENSSL_ROOT_DIR="$W/.windows-deps/jwtpp/openssl" \
